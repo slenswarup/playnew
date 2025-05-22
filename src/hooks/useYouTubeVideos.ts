@@ -49,11 +49,10 @@ export function useYouTubeVideos(query: string) {
       }
     };
 
-    const timeoutId = setTimeout(() => {
+    // Fetch immediately for video titles
+    if (query.length > 0) {
       fetchVideos();
-    }, 500); // Debounce API calls
-
-    return () => clearTimeout(timeoutId);
+    }
   }, [query]);
 
   return { videos, isLoading, error };

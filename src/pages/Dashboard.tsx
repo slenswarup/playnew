@@ -1,4 +1,3 @@
-// src/pages/Dashboard.tsx
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Search, Film, LogOut } from 'lucide-react';
@@ -35,11 +34,9 @@ export default function Dashboard() {
 
   // when you click a grid tile
   const handleVideoClick = (id: string, isYT = false) => {
-    if (isYT) {
-      navigate(`/watch/${id}`);
-    } else {
-      navigate(`/watch/${id}`);
-    }
+    // Use window.location.href to force a full page reload
+    const url = isYT ? `/watch?youtube=${id}` : `/watch?play=${id}`;
+    window.location.href = url;
   };
 
   // Header (always)
@@ -142,22 +139,14 @@ export default function Dashboard() {
                   <div
                     key={v.id}
                     onClick={() => handleVideoClick(v.id, true)}
-                    className="cursor-pointer"
+                    className="cursor-pointer group"
                   >
                     <div className="relative aspect-video rounded-lg overflow-hidden mb-2 bg-gray-800">
-                      {v.thumbnail ? (
+                      {v.thumbnail && (
                         <img
                           src={v.thumbnail}
                           alt={v.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition duration-200"
-                        />
-                      ) : (
-                        <video
-                          src={v.streamUrl}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-200"
-                          muted
-                          preload="metadata"
-                          autoPlay
                         />
                       )}
                     </div>
@@ -193,7 +182,6 @@ export default function Dashboard() {
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-200"
                         muted
                         preload="metadata"
-                        autoPlay
                       />
                     )}
                   </div>
